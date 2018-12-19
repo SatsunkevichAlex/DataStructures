@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 
 namespace DataStructures
 {
@@ -63,6 +64,50 @@ namespace DataStructures
             }
 
             return false;
+        }
+
+        public int Count => _count;
+        public bool IsEmpty => _count == 0;
+
+        public bool Contains(T data)
+        {
+            Node<T> current = _head;
+
+            while (current != null)
+            {
+                if (current.Data.Equals(data))
+                    return true;
+                current = current.Next;
+            }
+
+            return false;
+        }
+
+        public void AppendFirst(T data)
+        {
+            Node<T> node = new Node<T>(data);
+            node.Next = _head;
+            _head = node;
+            if (Count == 0)
+                _tail = _head;
+            _count++;
+        }
+
+        //Realization IEnumerable interface
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return ((IEnumerable) this).GetEnumerator();
+        }
+
+        IEnumerator<T> IEnumerable<T>.GetEnumerator()
+        {
+            Node<T> current = _head;
+
+            while (current != null)
+            {
+                yield return current.Data;
+                current = current.Next;
+            }
         }
     }
 }
